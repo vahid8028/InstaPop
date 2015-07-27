@@ -13,29 +13,32 @@ import java.net.URL;
 
 
 /**
- * Created by CryFin on 7/21/2015.
- *
  * Class for downloading bitmap image from passed URL and putting it inside the View.
  */
 //Todo: application may restart on screen reorientation, http://developer.android.com/guide/topics/resources/runtime-changes.html
-class URLDownloadTask extends AsyncTask<URL, Void, Bitmap> {
-    private ImageView updateView = null;
+class URLDownloadTask extends AsyncTask<String, Void, Bitmap> {
+    private ImageView imageView = null;
     private boolean isCancelled = false;
     private InputStream urlInputStream;
-    private ImageData imageData;
+    private static GlobalData global;
+    private static ImageData imageData;
+    private String urlString;
 
-    URLDownloadTask(ImageView updateView, ImageData imageData){
-        this.updateView = updateView;
-        this.imageData = imageData;
+    public URLDownloadTask(ImageView imageView){
+        this.imageView = imageView;
+        global = GlobalData.getInstance();
+        imageData = global.getImageData();
     }
 
     @Override
-    protected Bitmap doInBackground(URL... urls) {
+    protected Bitmap doInBackground(String... urlStrings) {
         Bitmap bmp;
         try {
-            HttpURLConnection con = (HttpURLConnection) urls[0].openConnection();
-            InputStream inputStream = con.getInputStream();
-            bmp = BitmapFactory.decodeStream(inputStream);
+            this.urlString = urlStrings[0];
+            URL url = new URL(urlString);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            urlInputStream = con.getInputStream();
+            bmp = BitmapFactory.decodeStream(urlInputStream);
             return bmp;
         } catch (Exception e) {
             Log.d("MANANA", "URLDT Exception: " + e);
@@ -53,13 +56,13 @@ class URLDownloadTask extends AsyncTask<URL, Void, Bitmap> {
         }
     }
     //runs in UI thread
-    //todo: rename updateView
     @Override
     protected void onPostExecute(final Bitmap bmp) {
         if (!this.isCancelled) {
             if (null != bmp) {
-                updateView.setImageBitmap(bmp);
-                imageData.addImageBitmap(bmp);
+                imageView.setImageBitmap(bmp);
+                int bmpPosition = imageData.addImageBitmap(bmp);
+                imageData.addImageDataToCache(urlString, bmpPosition);
             }
             else
                 System.out.println("The Bitmap is NULL");
@@ -67,7 +70,7 @@ class URLDownloadTask extends AsyncTask<URL, Void, Bitmap> {
     }
 
     //when cancelled, no synchronization is necessary
-    //todo: inspect code
+    //todo: inspect code, is it even needed in this app?
     @Override
     protected void onCancelled() {
         this.isCancelled = true;

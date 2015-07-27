@@ -15,21 +15,18 @@ import java.net.URL;
  *  Class for managing Views inside GridView
  */
 public class ImageAdapter extends BaseAdapter {
-    private Context context;
-    public static ImageData imageData;
+    private static Context context;
+    private static GlobalData global;
+    private static ImageData imageData;
     private static final String TAG_LINK= "link";
 
-    public ImageAdapter(Context context, ImageData imageData){
-        this.context = context;
-        this.imageData = imageData;
-    }
     public ImageAdapter(Context context){
         this.context = context;
+        global = GlobalData.getInstance();
+        imageData = global.getImageData();
     }
 
     public int getCount() {
-        //Log.d("MANANA size", "" + imageData.getSize());
-        //imageData.printImageData(imageData.getSize()-1);
         return imageData.getSize();
     }
 
@@ -42,7 +39,7 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     // create a new ImageView for each item referenced by the Adapter
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(int viewPosition, View view, ViewGroup parent) {
         ImageView imageView;
         if (view == null) {
             // initialize attributes
@@ -54,13 +51,12 @@ public class ImageAdapter extends BaseAdapter {
         }
 
         try{
-            String urlString = imageData.getImage(position).get(TAG_LINK);
+            String urlString = imageData.getImage(viewPosition).get(TAG_LINK);
             if (imageData.isInCache(urlString))
                 imageView.setImageBitmap(imageData.getImageBitmap(urlString));
             else {
-                URL url = new URL(urlString);
                 //Log.d("MANANA urlString", urlString);
-                new URLDownloadTask(imageView, imageData).execute(url);
+                new URLDownloadTask(imageView).execute(urlString);
             }
         }catch(Exception e) {
             Log.d("MANANA", "IA Exception: " + e);

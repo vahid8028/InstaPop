@@ -30,13 +30,15 @@ public class ParseJson {
     private static final String TAG_USERNAME = "username";
 
     private JSONArray images;
-    private ImageData imageData;
+    private static GlobalData global;
+    private static ImageData imageData;
 
-    public ParseJson ( JSONArray images, ImageData imageData){
+    public ParseJson ( JSONArray images ){
         this.images = images;
-        this.imageData = imageData;
+        global = GlobalData.getInstance();
+        imageData = global.getImageData();
     }
-
+    //todo: implement if/else statements for checking if certain objects exist before trying to retrieve them.
     public void parse () {
         try {
             // parsing all images and populating imageData object

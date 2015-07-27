@@ -12,23 +12,33 @@ import java.util.HashMap;
  *  This class is used to store and manage all images used inside the app.
  *
  */
+//todo: implement dynamic cache emptying
 public class ImageData {
 
-    private ArrayList<HashMap<String, String>> imageList;
-    private HashMap<String, Integer> imageCache;
-    private HashMap<Integer, Bitmap> imageBitmaps;
+    private static ArrayList<HashMap<String, String>> imageList;
+    private static HashMap<String, Integer> imageCache;
+    private static HashMap<Integer, Bitmap> imageBitmaps;
+    public static boolean loadingImages = true;
 
-    public ImageData( ArrayList<HashMap<String, String>> imageList, HashMap<String, Integer> imageCache){
-        this.imageList = imageList;
-        this.imageCache = imageCache;
+    public ImageData(){
+        imageList = new ArrayList<>();
+        imageCache = new HashMap<>();
         this.imageBitmaps = new HashMap<>();
     }
 
+    public boolean isLoadingImages(){
+        return loadingImages;
+    }
+    public void setLoadingImages(boolean loading){
+        synchronized (ImageData.class){
+            loadingImages = loading;
+        }
+    }
     //todo: check if addImageBitmap position counting works with this method
-    public boolean addImageBitmap ( Bitmap bmp){
+    public int addImageBitmap ( Bitmap bmp){
         int position = imageBitmaps.size();
         imageBitmaps.put(position, bmp);
-        return imageBitmaps.get(position) == bmp;
+        return position;
     }
     public boolean addImageBitmap ( Integer position, Bitmap bmp){
         imageBitmaps.put(position-1, bmp);
@@ -37,22 +47,22 @@ public class ImageData {
     public boolean addImageData (HashMap<String, String> image){
         return imageList.add(image);
     }
-    public boolean addImageDataToCache (String url, Integer position){
-        if (isInCache(url)) return true;
-        else imageCache.put(url,position);
-        return isInCache(url);
+    public boolean addImageDataToCache (String urlString, Integer bmpPosition){
+        if (isInCache(urlString)) return true;
+        else imageCache.put(urlString,bmpPosition);
+        return isInCache(urlString);
     }
-    public boolean isInCache (String url){
-        return imageCache.containsKey(url);
+    public boolean isInCache (String urlString){
+        return imageCache.containsKey(urlString);
     }
-    //todo: why do I have to add +2?
+    //todo: why do I have to add +2? -> no longer works
     public Bitmap getImageBitmap ( Integer position ){
-        if (imageBitmaps.containsKey(position+2)) return imageBitmaps.get(position+2);
+        if (imageBitmaps.containsKey(position)) return imageBitmaps.get(position);
         else return null;
     }
     public Bitmap getImageBitmap ( String urlString ){
         Integer position = imageCache.get(urlString);
-        if (imageBitmaps.containsKey(position+2)) return imageBitmaps.get(position+2);
+        if (imageBitmaps.containsKey(position)) return imageBitmaps.get(position);
         else return null;
     }
     public HashMap<String, String> getImageData (Integer position){
@@ -61,8 +71,8 @@ public class ImageData {
     public HashMap<String, String> getImage (int position){
         return imageList.get(position);
     }
-    public HashMap<String, String> getImageDataFromCache (String url){
-        return imageList.get(imageCache.get(url));
+    public HashMap<String, String> getImageDataFromCache (String urlString){
+        return imageList.get(imageCache.get(urlString));
     }
     public ArrayList<HashMap<String, String>> getImageList (){
         return imageList;

@@ -10,21 +10,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- *  Created by CryFin on 7/27/2015.
- *
  *  Class for showing additional info about selected image.
- *
  */
 public class ShowInfo {
 
     private Context mContext;
-    private ImageData imageData;
+    private static GlobalData global;
+    private static ImageData imageData;
     private int position;
 
-    public ShowInfo( Context mContext, ImageData imageData, int position){
+    public ShowInfo( Context mContext, int position){
         this.mContext = mContext;
-        this.imageData = imageData;
         this.position = position;
+        global = GlobalData.getInstance();
+        imageData = global.getImageData();
     }
 
     public void show (){
