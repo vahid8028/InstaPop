@@ -18,19 +18,17 @@ import org.json.JSONObject;
 public class LoadMoreImages extends AsyncTask<Integer, Void, Void> {
 
     //private final WeakReference<ImageAdapter> imageAdapterWeakReference;
-    private GetJson getJson;
-    private String downloadUrl;
+    private static GetJson getJson = new GetJson();
     private ImageData imageData;
-    private GridView gridView;
     private ImageAdapter imageAdapter;
+    private GridView gridView;
+    private String downloadUrl;
 
-    public LoadMoreImages( String downloadUrl, ImageData imageData, GridView gridView, ImageAdapter imageAdapter ) {
-        this.getJson= new GetJson();
-
-        this.downloadUrl = downloadUrl;
+    public LoadMoreImages( ImageData imageData, ImageAdapter imageAdapter,  GridView gridView, String downloadUrl ) {
         this.imageData = imageData;
-        this.gridView = gridView;
         this.imageAdapter = imageAdapter;
+        this.gridView = gridView;
+        this.downloadUrl = downloadUrl;
         //imageAdapterWeakReference = new WeakReference<>(imageAdapter);
     }
 

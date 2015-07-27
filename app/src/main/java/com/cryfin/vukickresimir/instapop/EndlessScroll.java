@@ -1,6 +1,7 @@
 package com.cryfin.vukickresimir.instapop;
 
 import android.content.Context;
+import android.media.Image;
 import android.widget.AbsListView; // possibly wrong import
 import android.widget.GridView;
 
@@ -16,16 +17,16 @@ public class EndlessScroll implements AbsListView.OnScrollListener {
     private int previousTotal = 0;
     private boolean loading = true;
 
-    private String downloadUrl;
     private ImageData imageData;
-    private Context mContext;
+    private ImageAdapter imageAdapter;
     private GridView gridView;
+    private String downloadUrl;
 
-    public EndlessScroll( Context mContext, String downloadUrl, ImageData imageData, GridView gridView ) {
-        this.mContext = mContext;
-        this.downloadUrl = downloadUrl;
+    public EndlessScroll( ImageData imageData, ImageAdapter imageAdapter,  GridView gridView, String downloadUrl ) {
         this.imageData = imageData;
+        this.imageAdapter = imageAdapter;
         this.gridView = gridView;
+        this.downloadUrl = downloadUrl;
     }
 
     // Will be called many times per second
@@ -40,7 +41,7 @@ public class EndlessScroll implements AbsListView.OnScrollListener {
             }
         }
         if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-            //new LoadMoreImages().execute();
+            new LoadMoreImages(imageData, imageAdapter, gridView, downloadUrl).execute();
             loading = true;
         }
     }
