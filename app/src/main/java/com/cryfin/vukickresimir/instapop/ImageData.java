@@ -1,14 +1,16 @@
 package com.cryfin.vukickresimir.instapop;
 
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by CryFin on 7/26/2015.
+ *  Created by CryFin on 7/22/2015.
+ *
+ *  This class is used to store and manage all images used inside the app.
+ *
  */
 public class ImageData {
 
@@ -26,13 +28,11 @@ public class ImageData {
     public boolean addImageBitmap ( Bitmap bmp){
         int position = imageBitmaps.size();
         imageBitmaps.put(position, bmp);
-        if (imageBitmaps.get(position) == bmp) return true;
-        else return false;
+        return imageBitmaps.get(position) == bmp;
     }
     public boolean addImageBitmap ( Integer position, Bitmap bmp){
         imageBitmaps.put(position-1, bmp);
-        if (imageBitmaps.get(position-1) == bmp) return true;
-        else return false;
+        return imageBitmaps.get(position - 1) == bmp;
     }
     public boolean addImageData (HashMap<String, String> image){
         return imageList.add(image);
@@ -40,14 +40,18 @@ public class ImageData {
     public boolean addImageDataToCache (String url, Integer position){
         if (isInCache(url)) return true;
         else imageCache.put(url,position);
-        if (isInCache(url)) return true;
-        else return false;
+        return isInCache(url);
     }
     public boolean isInCache (String url){
         return imageCache.containsKey(url);
     }
     //todo: why do I have to add +2?
     public Bitmap getImageBitmap ( Integer position ){
+        if (imageBitmaps.containsKey(position+2)) return imageBitmaps.get(position+2);
+        else return null;
+    }
+    public Bitmap getImageBitmap ( String urlString ){
+        Integer position = imageCache.get(urlString);
         if (imageBitmaps.containsKey(position+2)) return imageBitmaps.get(position+2);
         else return null;
     }

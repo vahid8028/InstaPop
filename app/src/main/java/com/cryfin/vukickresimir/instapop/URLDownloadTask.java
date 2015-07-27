@@ -13,7 +13,9 @@ import java.net.URL;
 
 
 /**
- * Created by CryFin on 7/22/2015.
+ * Created by CryFin on 7/21/2015.
+ *
+ * Class for downloading bitmap image from passed URL and putting it inside the View.
  */
 //Todo: application may restart on screen reorientation, http://developer.android.com/guide/topics/resources/runtime-changes.html
 class URLDownloadTask extends AsyncTask<URL, Void, Bitmap> {

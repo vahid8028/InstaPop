@@ -8,16 +8,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by CryFin on 7/24/2015.
+ *  Created by CryFin on 7/23/2015.
+ *
+ *  Class for downloading JSON data from given URL.
  */
-public class GetJsonTask {
+//todo: inspect class
+public class GetJson {
 
     static String response = null;
     InputStream inputStream = null;
 
-    public GetJsonTask() {}
+    public GetJson() {}
 
-    public String makeServiceCall(String urlString) {
+    public String get(String urlString) {
         try {
             URL url = new URL(urlString);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();

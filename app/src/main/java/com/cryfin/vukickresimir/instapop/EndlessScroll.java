@@ -5,7 +5,9 @@ import android.widget.AbsListView; // possibly wrong import
 import android.widget.GridView;
 
 /**
- * Created by CryFin on 7/25/2015.
+ *  Created by CryFin on 7/24/2015.
+ *
+ *  This class manages scrolling inside the app and dynamically loads more images when needed.
  */
 public class EndlessScroll implements AbsListView.OnScrollListener {
 
@@ -38,7 +40,7 @@ public class EndlessScroll implements AbsListView.OnScrollListener {
             }
         }
         if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-            new LoadImageData(mContext, downloadUrl, imageData, gridView).execute();
+            //new LoadMoreImages().execute();
             loading = true;
         }
     }

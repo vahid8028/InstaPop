@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import java.net.URL;
 
 /**
- * Created by CryFin on 7/20/2015.
+ *  Created by CryFin on 7/21/2015.
+ *
+ *  Class for managing Views inside GridView
  */
 public class ImageAdapter extends BaseAdapter {
     private Context context;
@@ -53,9 +55,13 @@ public class ImageAdapter extends BaseAdapter {
 
         try{
             String urlString = imageData.getImage(position).get(TAG_LINK);
-            URL url = new URL(urlString);
-            //Log.d("MANANA urlString", urlString);
-            new URLDownloadTask(imageView, imageData).execute(url);
+            if (imageData.isInCache(urlString))
+                imageView.setImageBitmap(imageData.getImageBitmap(urlString));
+            else {
+                URL url = new URL(urlString);
+                //Log.d("MANANA urlString", urlString);
+                new URLDownloadTask(imageView, imageData).execute(url);
+            }
         }catch(Exception e) {
             Log.d("MANANA", "IA Exception: " + e);
         }

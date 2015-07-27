@@ -8,12 +8,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 /**
- *  Created by CryFin on 7/21/2015.
+ *  Created by CryFin on 7/26/2015.
  *
- *  Async class for loading initial set of images.
+ *  Async class for loading more images. It's logic is similar to LoadImageData class but implements
+ *  additional checking for scrolling state.
  * */
-public class LoadImageData extends AsyncTask<Integer, Void, Void> {
+public class LoadMoreImages extends AsyncTask<Integer, Void, Void> {
 
     //private final WeakReference<ImageAdapter> imageAdapterWeakReference;
     private GetJson getJson;
@@ -22,7 +24,7 @@ public class LoadImageData extends AsyncTask<Integer, Void, Void> {
     private GridView gridView;
     private ImageAdapter imageAdapter;
 
-    public LoadImageData( String downloadUrl, ImageData imageData, GridView gridView, ImageAdapter imageAdapter ) {
+    public LoadMoreImages( String downloadUrl, ImageData imageData, GridView gridView, ImageAdapter imageAdapter ) {
         this.getJson= new GetJson();
 
         this.downloadUrl = downloadUrl;
@@ -34,7 +36,7 @@ public class LoadImageData extends AsyncTask<Integer, Void, Void> {
 
     @Override
     protected void onPreExecute() {
-        //super.onPreExecute();
+        super.onPreExecute();
         //progressBar.setVisibility(View.VISIBLE);
     }
 
@@ -64,12 +66,11 @@ public class LoadImageData extends AsyncTask<Integer, Void, Void> {
 
     @Override
     protected void onPostExecute(Void result) {
-        //super.onPostExecute(result);
+        super.onPostExecute(result);
         //progressBar.setVisibility(View.GONE);
         //Populate GridView with images
         gridView.setAdapter(imageAdapter);
 
-        //todo: is this needed?
         // get listview current position - used to maintain scroll position
         int currentPosition = gridView.getFirstVisiblePosition();
         // Setting new scroll position

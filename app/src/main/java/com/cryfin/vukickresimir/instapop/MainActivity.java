@@ -6,7 +6,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -27,6 +26,7 @@ public class MainActivity extends Activity {
     private ProgressBar progressBar;
     private GridView gridView;
     private ImageData imageData;
+    private ImageAdapter imageAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,8 @@ public class MainActivity extends Activity {
         imageData = new ImageData(imageList, imageCache);
 
         // Calling async task to get json
-        new LoadImageData(this, instaUrl, imageData, gridView).execute();
+        imageAdapter = new ImageAdapter(this, imageData);
+        new LoadImageData( instaUrl, imageData, gridView, imageAdapter).execute();
 
         gridView.setOnScrollListener(new EndlessScroll(this, instaUrl, imageData, gridView));
 
