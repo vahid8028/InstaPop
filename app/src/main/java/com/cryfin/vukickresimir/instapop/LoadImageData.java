@@ -2,7 +2,6 @@ package com.cryfin.vukickresimir.instapop;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 
@@ -15,7 +14,6 @@ import org.json.JSONObject;
  */
 public class LoadImageData extends AsyncTask<Integer, Void, Void> {
 
-    //private final WeakReference<ImageAdapter> imageAdapterWeakReference;
     private static GetJson getJson;
     private static GlobalData global = GlobalData.getInstance();
     private static ImageData imageData;
@@ -32,14 +30,13 @@ public class LoadImageData extends AsyncTask<Integer, Void, Void> {
         gridView = global.getGridView();
         downloadUrl = global.getDownloadUrl();
         progressBar = global.getProgressBar();
-        //imageAdapterWeakReference = new WeakReference<>(imageAdapter);
     }
 
     @Override
     protected void onPreExecute() {
         //super.onPreExecute();
         imageData.setLoadingImages(true);
-        progressBar.setVisibility(View.VISIBLE);
+        //progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -66,18 +63,19 @@ public class LoadImageData extends AsyncTask<Integer, Void, Void> {
     }
 
     @Override
-    protected void onPostExecute(Void result) {
+    protected synchronized void onPostExecute(Void result) {
         //super.onPostExecute(result);
-        progressBar.setVisibility(View.GONE);
-        // get listview current position - used to maintain scroll position
+        //progressBar.setVisibility(View.GONE);
+
+        // Get current scroll position
         int currentPosition = gridView.getFirstVisiblePosition();
 
         //Populate GridView with images
         gridView.setAdapter(imageAdapter);
 
-        //todo: is this needed?
-        // Setting new scroll position
+        // Set new scroll position
         gridView.setSelection(currentPosition);
+
         imageData.setLoadingImages(false);
     }
 }

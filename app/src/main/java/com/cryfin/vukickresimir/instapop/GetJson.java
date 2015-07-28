@@ -8,8 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- *  Created by CryFin on 7/23/2015.
- *
  *  Class for downloading JSON data from given URL.
  */
 //todo: inspect class
@@ -29,9 +27,9 @@ public class GetJson {
             BufferedReader br = new BufferedReader(new InputStreamReader(
                     inputStream));
 
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
 
-            String line = "";
+            String line;
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }

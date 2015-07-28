@@ -1,29 +1,34 @@
 package com.cryfin.vukickresimir.instapop;
 
 import android.graphics.Bitmap;
-import android.util.Log;
+import android.util.LruCache;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- *  Created by CryFin on 7/22/2015.
- *
  *  This class is used to store and manage all images used inside the app.
- *
  */
 //todo: implement dynamic cache emptying
 public class ImageData {
 
-    private static ArrayList<HashMap<String, String>> imageList;
-    private static HashMap<String, Integer> imageCache;
-    private static HashMap<Integer, Bitmap> imageBitmaps;
+    private static ArrayList<ConcurrentHashMap<String, String>> imageList;
+    private static LruCache<String, Integer> imagePositionMap;    //urlString, viewPosition
+    private static LruCache<Integer, String> imageUrlMap;         //viewPosition, urlString
+    private static LruCache<String, Bitmap> imageBitmapCache;     //urlString, bmp
     public static boolean loadingImages = true;
+    private static final int cacheSize = 100;    // max number of objects stored in cache
+    /*
+    private static final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+    private static final int cacheSize = maxMemory / 4;     // max number of bytes stored in cache
+    //todo: override sizeof() in LruCache
+    */
 
     public ImageData(){
         imageList = new ArrayList<>();
-        imageCache = new HashMap<>();
-        this.imageBitmaps = new HashMap<>();
+        imageBitmapCache = new LruCache<>(cacheSize);
+        imagePositionMap = new LruCache<>(cacheSize);
+        imageUrlMap = new LruCache<>(cacheSize);
     }
 
     public boolean isLoadingImages(){
@@ -34,59 +39,57 @@ public class ImageData {
             loadingImages = loading;
         }
     }
-    //todo: check if addImageBitmap position counting works with this method
-    public int addImageBitmap ( Bitmap bmp){
-        int position = imageBitmaps.size();
-        imageBitmaps.put(position, bmp);
-        return position;
-    }
-    public boolean addImageBitmap ( Integer position, Bitmap bmp){
-        imageBitmaps.put(position-1, bmp);
-        return imageBitmaps.get(position - 1) == bmp;
-    }
-    public boolean addImageData (HashMap<String, String> image){
-        return imageList.add(image);
-    }
-    public boolean addImageDataToCache (String urlString, Integer bmpPosition){
-        if (isInCache(urlString)) return true;
-        else imageCache.put(urlString,bmpPosition);
-        return isInCache(urlString);
-    }
-    public boolean isInCache (String urlString){
-        return imageCache.containsKey(urlString);
-    }
-    //todo: why do I have to add +2? -> no longer works
-    public Bitmap getImageBitmap ( Integer position ){
-        if (imageBitmaps.containsKey(position)) return imageBitmaps.get(position);
-        else return null;
+
+    //returns previous value stored under urlString or null
+    public Bitmap addImageBitmapToCache(String urlString, Bitmap bmp){
+        return imageBitmapCache.put(urlString, bmp);
     }
     public Bitmap getImageBitmap ( String urlString ){
-        Integer position = imageCache.get(urlString);
-        if (imageBitmaps.containsKey(position)) return imageBitmaps.get(position);
+        if ( null != urlString )
+            return imageBitmapCache.get(urlString);
         else return null;
     }
-    public HashMap<String, String> getImageData (Integer position){
+
+    public Integer addImagePositionToCache(String urlString, Integer viewPosition){
+        imageUrlMap.put(viewPosition, urlString);
+        return imagePositionMap.put(urlString, viewPosition);
+    }
+    public Integer getImagePosition(String urlString){
+        if ( null != urlString )
+            return imagePositionMap.get(urlString);
+        else return null;
+    }
+
+    public boolean isInCache (String urlString){
+        if (null != imageBitmapCache.get(urlString))
+            return true;
+        else return false;
+    }
+
+    public boolean addImageData (ConcurrentHashMap<String, String> image){
+        return imageList.add(image);
+    }
+    public ConcurrentHashMap<String, String> getImageData (Integer position){
         return imageList.get(position);
     }
-    public HashMap<String, String> getImage (int position){
-        return imageList.get(position);
-    }
-    public HashMap<String, String> getImageDataFromCache (String urlString){
-        return imageList.get(imageCache.get(urlString));
-    }
-    public ArrayList<HashMap<String, String>> getImageList (){
-        return imageList;
-    }
+
     public int getSize (){
         return imageList.size();
     }
-    public void clearImageData (){
+    public String getUrlString(Integer viewPosition){
+        if ( null != viewPosition )
+            return imageUrlMap.get(viewPosition);
+        else return null;
+    }
+    public ArrayList<ConcurrentHashMap<String, String>> getImageList (){
+        return imageList;
+    }
+
+/*    public void clearImageData (){
         imageList.clear();
-        imageCache.clear();
-        imageBitmaps.clear();
+        imageBitmapCache.evictAll();
+        imagePositionMap.evictAll();
     }
-    public void printImageData(int position){
-        Log.d("MANANA imgDat link", imageList.get(position).get("link"));
-    }
+    */
 
 }

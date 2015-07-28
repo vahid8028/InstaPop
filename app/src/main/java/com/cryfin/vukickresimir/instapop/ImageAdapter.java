@@ -7,11 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import java.net.URL;
-
 /**
- *  Created by CryFin on 7/21/2015.
- *
  *  Class for managing Views inside GridView
  */
 public class ImageAdapter extends BaseAdapter {
@@ -39,25 +35,25 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     // create a new ImageView for each item referenced by the Adapter
-    public View getView(int viewPosition, View view, ViewGroup parent) {
+    public View getView(int viewPosition, View oldView, ViewGroup parent) {
         ImageView imageView;
-        if (view == null) {
-            // initialize attributes
+        if (oldView == null) {
             imageView = new ImageView(context);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(7, 7, 7, 7);
+            //imageView.setPadding(7, 7, 7, 7);
         } else {
-            imageView = (ImageView) view;
+            imageView = (ImageView) oldView;
         }
 
         try{
-            String urlString = imageData.getImage(viewPosition).get(TAG_LINK);
-            if (imageData.isInCache(urlString))
-                imageView.setImageBitmap(imageData.getImageBitmap(urlString));
-            else {
-                //Log.d("MANANA urlString", urlString);
-                new URLDownloadTask(imageView).execute(urlString);
-            }
+            String urlString = imageData.getImageData(viewPosition).get(TAG_LINK);
+                if (imageData.isInCache(urlString)) {
+                    imageView.setImageBitmap(imageData.getImageBitmap(urlString));
+                }
+                else {
+                    //Log.d("MANANA urlString", urlString);
+                    new URLDownloadTask(imageView, viewPosition).execute(urlString);
+                }
         }catch(Exception e) {
             Log.d("MANANA", "IA Exception: " + e);
         }

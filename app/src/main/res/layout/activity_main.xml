@@ -15,12 +15,10 @@
         android:stretchMode="columnWidth"
         android:gravity="center"
         android:clickable="true"
-        android:focusableInTouchMode="true"
-        android:focusable="true"
-        android:scrollingCache="true"
         android:layout_alignParentTop="true"
         android:layout_above="@+id/progressBarLinLayout"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:scrollingCache="false">
     </GridView>
 
     <LinearLayout

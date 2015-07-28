@@ -18,14 +18,15 @@ import java.net.URL;
 //Todo: application may restart on screen reorientation, http://developer.android.com/guide/topics/resources/runtime-changes.html
 class URLDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private ImageView imageView = null;
-    private boolean isCancelled = false;
     private InputStream urlInputStream;
     private static GlobalData global;
     private static ImageData imageData;
     private String urlString;
+    private Integer viewPosition;
 
-    public URLDownloadTask(ImageView imageView){
+    public URLDownloadTask(ImageView imageView, Integer viewPosition){
         this.imageView = imageView;
+        this.viewPosition = viewPosition;
         global = GlobalData.getInstance();
         imageData = global.getImageData();
     }
@@ -58,20 +59,17 @@ class URLDownloadTask extends AsyncTask<String, Void, Bitmap> {
     //runs in UI thread
     @Override
     protected void onPostExecute(final Bitmap bmp) {
-        if (!this.isCancelled) {
-            if (null != bmp) {
-                imageView.setImageBitmap(bmp);
-                int bmpPosition = imageData.addImageBitmap(bmp);
-                imageData.addImageDataToCache(urlString, bmpPosition);
-            }
-            else
-                System.out.println("The Bitmap is NULL");
+        if (null != bmp) {
+            imageView.setImageBitmap(bmp);
+            imageData.addImageBitmapToCache(urlString, bmp);
+            imageData.addImagePositionToCache(urlString, viewPosition);
         }
+        else
+            Log.d("MANANA Error:","The Bitmap is NULL");
     }
 
     //when cancelled, no synchronization is necessary
-    //todo: inspect code, is it even needed in this app?
-    @Override
+    /*@Override
     protected void onCancelled() {
         this.isCancelled = true;
         try {
@@ -87,5 +85,5 @@ class URLDownloadTask extends AsyncTask<String, Void, Bitmap> {
         } finally {
             super.onCancelled();
         }
-    }
+    }*/
 }

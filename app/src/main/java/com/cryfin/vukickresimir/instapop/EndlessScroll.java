@@ -1,22 +1,20 @@
 package com.cryfin.vukickresimir.instapop;
 
-import android.widget.AbsListView; // possibly wrong import
+import android.widget.AbsListView;
 
 
 /**
- *  Created by CryFin on 7/24/2015.
- *
  *  This class manages scrolling inside the app and dynamically loads more images when needed.
  */
 //todo: disable rescrolling to the top ater loading new images
 public class EndlessScroll implements AbsListView.OnScrollListener {
 
-    private int visibleThreshold = 5;
-    private int currentPage = 0;
-    private int previousTotal = 0;
-
     private static GlobalData global;
     private static ImageData imageData;
+
+    private int visibleThreshold = 10;
+    private int currentPage = 0;
+    private int previousTotal = 0;
 
     public EndlessScroll() {
         global = GlobalData.getInstance();
@@ -32,12 +30,10 @@ public class EndlessScroll implements AbsListView.OnScrollListener {
                 imageData.setLoadingImages(false);
                 previousTotal = totalItemCount;
                 currentPage++;
-                //Log.d("MANANA: ", "previous Total: "+ previousTotal);
             }
-        }
-        if (!imageData.isLoadingImages() && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-            new LoadImageData().execute();
+        }else if ((totalItemCount - firstVisibleItem) <= (visibleItemCount + visibleThreshold)) {
             imageData.setLoadingImages(true);
+            new LoadImageData().execute();
         }
     }
 

@@ -6,11 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created by CryFin on 7/23/2015.
- *
  * This class is used to parse Json data passed to it as JSONArray.
  * All data for certain image is firstly stored inside HashMap object and afterwards saved in ImageData object.
  */
@@ -30,12 +28,11 @@ public class ParseJson {
     private static final String TAG_USERNAME = "username";
 
     private JSONArray images;
-    private static GlobalData global;
     private static ImageData imageData;
 
     public ParseJson ( JSONArray images ){
         this.images = images;
-        global = GlobalData.getInstance();
+        GlobalData global = GlobalData.getInstance();
         imageData = global.getImageData();
     }
     //todo: implement if/else statements for checking if certain objects exist before trying to retrieve them.
@@ -59,7 +56,7 @@ public class ParseJson {
 
 
                 // tmp hashmap for single image
-                HashMap<String, String> image = new HashMap<>();
+                ConcurrentHashMap<String, String> image = new ConcurrentHashMap<>();
 
                 // adding each child node to HashMap
                 image.put(TAG_ID, id);
