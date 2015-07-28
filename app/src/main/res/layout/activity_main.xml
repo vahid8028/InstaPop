@@ -17,8 +17,7 @@
         android:clickable="true"
         android:layout_alignParentTop="true"
         android:layout_above="@+id/progressBarLinLayout"
-        android:layout_margin="10dp"
-        android:scrollingCache="false">
+        android:layout_margin="10dp">
     </GridView>
 
     <LinearLayout
