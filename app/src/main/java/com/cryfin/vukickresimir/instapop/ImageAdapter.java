@@ -36,11 +36,13 @@ public class ImageAdapter extends BaseAdapter {
 
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int viewPosition, View oldView, ViewGroup parent) {
+        //todo:implement
+        ViewHolder viewHolder = new ViewHolder();
         ImageView imageView;
         if (oldView == null) {
             imageView = new ImageView(context);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            //imageView.setPadding(7, 7, 7, 7);
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageView.setPadding(3,3,3,3);
         } else {
             imageView = (ImageView) oldView;
         }
@@ -48,7 +50,7 @@ public class ImageAdapter extends BaseAdapter {
         try{
             String urlString = imageData.getImageData(viewPosition).get(TAG_LINK);
                 if (imageData.isInCache(urlString)) {
-                    imageView.setImageBitmap(imageData.getImageBitmap(urlString));
+                    imageView.setImageBitmap(imageData.getImageBitmapThumbnail(urlString));
                 }
                 else {
                     //Log.d("MANANA urlString", urlString);

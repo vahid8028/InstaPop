@@ -23,14 +23,21 @@ class URLDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private static ImageData imageData;
     private String urlString;
     private Integer viewPosition;
+    private boolean addToCache = true;
 
+    public URLDownloadTask(ImageView imageView, Integer viewPosition, boolean addToCache){
+        this.imageView = imageView;
+        this.viewPosition = viewPosition;
+        this.addToCache = addToCache;
+        global = GlobalData.getInstance();
+        imageData = global.getImageData();
+    }
     public URLDownloadTask(ImageView imageView, Integer viewPosition){
         this.imageView = imageView;
         this.viewPosition = viewPosition;
         global = GlobalData.getInstance();
         imageData = global.getImageData();
     }
-
     @Override
     protected Bitmap doInBackground(String... urlStrings) {
         Bitmap bmp;
@@ -56,34 +63,17 @@ class URLDownloadTask extends AsyncTask<String, Void, Bitmap> {
             }
         }
     }
-    //runs in UI thread
+    //runs on the UI thread
     @Override
     protected void onPostExecute(final Bitmap bmp) {
         if (null != bmp) {
             imageView.setImageBitmap(bmp);
-            imageData.addImageBitmapToCache(urlString, bmp);
-            imageData.addImagePositionToCache(urlString, viewPosition);
+            if (addToCache) {
+                imageData.addImageBitmapToCache(urlString, bmp);
+                imageData.addImagePositionToCache(urlString, viewPosition);
+            }
         }
         else
             Log.d("MANANA Error:","The Bitmap is NULL");
     }
-
-    //when cancelled, no synchronization is necessary
-    /*@Override
-    protected void onCancelled() {
-        this.isCancelled = true;
-        try {
-            if (this.urlInputStream != null) {
-                try {
-                    this.urlInputStream.close();
-                } catch (IOException e) {
-                    Log.d("MANANA", "URLDT Exception: " + e);
-                } finally {
-                    this.urlInputStream = null;
-                }
-            }
-        } finally {
-            super.onCancelled();
-        }
-    }*/
 }

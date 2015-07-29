@@ -2,6 +2,7 @@ package com.cryfin.vukickresimir.instapop;
 
 import android.graphics.Bitmap;
 import android.util.LruCache;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,12 +45,15 @@ public class ImageData {
     public Bitmap addImageBitmapToCache(String urlString, Bitmap bmp){
         return imageBitmapCache.put(urlString, bmp);
     }
-    public Bitmap getImageBitmap ( String urlString ){
+    public Bitmap getImageBitmapThumbnail(String urlString){
         if ( null != urlString )
             return imageBitmapCache.get(urlString);
         else return null;
     }
-
+    //todo: implement
+    public void setImageBitmapStandard( ImageView imageView, Integer viewPosition, String urlString){
+        new URLDownloadTask(imageView, viewPosition).execute(urlString);
+    }
     public Integer addImagePositionToCache(String urlString, Integer viewPosition){
         imageUrlMap.put(viewPosition, urlString);
         return imagePositionMap.put(urlString, viewPosition);

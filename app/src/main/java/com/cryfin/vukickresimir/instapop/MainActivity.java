@@ -13,17 +13,15 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.activity_main);
 
         ImageAdapter imageAdapter = new ImageAdapter(this);
 
         GridView gridView = (GridView) findViewById(R.id.instaGrid);
-        gridView.setFastScrollEnabled(true);
-/*
+        //gridView.setFastScrollEnabled(true);
 
-        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.GONE);
-*/
+        /*ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);*/
 
         GlobalData global = GlobalData.getInstance();
         global.setGridView(gridView);
@@ -37,8 +35,12 @@ public class MainActivity extends Activity {
         global.getGridView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                ShowInfo showInfo = new ShowInfo(MainActivity.this, position);
-                showInfo.show();
+
+                DetailView detailView = new DetailView(MainActivity.this, position);
+                detailView.show();
+
+               /* ShowInfo showInfo = new ShowInfo(MainActivity.this, position);
+                showInfo.show();*/
             }
         });
     }
