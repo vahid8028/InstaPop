@@ -13,17 +13,17 @@ import java.net.URL;
 
 
 /**
- * Class for downloading bitmap image from passed URL and putting it inside the View.
+ * Class for downloading bitmap image from passed URL and setting them inside the View.
  */
 //Todo: application may restart on screen reorientation, http://developer.android.com/guide/topics/resources/runtime-changes.html
 class URLDownloadTask extends AsyncTask<String, Void, Bitmap> {
-    private ImageView imageView = null;
-    private InputStream urlInputStream;
     private static GlobalData global;
     private static ImageData imageData;
-    private String urlString;
-    private Integer viewPosition;
     private boolean addToCache = true;
+    private Integer viewPosition;
+    private InputStream urlInputStream;
+    private ImageView imageView = null;
+    private String urlString;
 
     public URLDownloadTask(ImageView imageView, Integer viewPosition, boolean addToCache){
         this.imageView = imageView;
@@ -49,14 +49,14 @@ class URLDownloadTask extends AsyncTask<String, Void, Bitmap> {
             bmp = BitmapFactory.decodeStream(urlInputStream);
             return bmp;
         } catch (Exception e) {
-            Log.d("MANANA", "URLDT Exception: " + e);
+            e.printStackTrace();
             return null;
         }finally {
             if (this.urlInputStream != null) {
                 try {
                     this.urlInputStream.close();
                 } catch (IOException e) {
-                    Log.d("MANANA", "URLDT Exception: " + e);
+                    e.printStackTrace();
                 } finally {
                     this.urlInputStream = null;
                 }
@@ -74,6 +74,6 @@ class URLDownloadTask extends AsyncTask<String, Void, Bitmap> {
             }
         }
         else
-            Log.d("MANANA Error:","The Bitmap is NULL");
+            Log.e("Error: ", "The Bitmap is NULL");
     }
 }

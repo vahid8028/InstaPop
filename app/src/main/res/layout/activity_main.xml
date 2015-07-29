@@ -1,16 +1,33 @@
-<GridView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/instaGrid"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:columnWidth="90dp"
-    android:numColumns="auto_fit"
-    android:verticalSpacing="4dp"
-    android:horizontalSpacing="4dp"
-    android:stretchMode="columnWidth"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/progressBarLinLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:gravity="center"
-    android:clickable="true"
-    android:focusableInTouchMode="true"
-    android:focusable="true"
-    android:scrollingCache="true"
-    android:padding="2dp">
-</GridView>
+    android:orientation="horizontal">
+
+    <ListView
+        android:id="@+id/instaGrid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="90dp"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="4dp"
+        android:horizontalSpacing="4dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:scrollingCache="true"
+        android:padding="2dp" />
+
+    <ProgressBar android:indeterminate="true"
+        android:layout_width="fill_parent" android:layout_height="50dp"
+        android:id="@+id/progressBar"
+        android:style="?android:attr/progressBarStyle"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/background_light"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

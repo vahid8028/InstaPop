@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  *  This class is used to store and manage all images used inside the app.
  */
-//todo: implement dynamic cache emptying
 public class ImageData {
 
     private static ArrayList<ConcurrentHashMap<String, String>> imageList;
@@ -50,24 +49,16 @@ public class ImageData {
             return imageBitmapCache.get(urlString);
         else return null;
     }
-    //todo: implement
     public void setImageBitmapStandard( ImageView imageView, Integer viewPosition, String urlString){
-        new URLDownloadTask(imageView, viewPosition).execute(urlString);
+        new URLDownloadTask(imageView, viewPosition, false).execute(urlString);
     }
     public Integer addImagePositionToCache(String urlString, Integer viewPosition){
         imageUrlMap.put(viewPosition, urlString);
         return imagePositionMap.put(urlString, viewPosition);
     }
-    public Integer getImagePosition(String urlString){
-        if ( null != urlString )
-            return imagePositionMap.get(urlString);
-        else return null;
-    }
 
     public boolean isInCache (String urlString){
-        if (null != imageBitmapCache.get(urlString))
-            return true;
-        else return false;
+        return null != imageBitmapCache.get(urlString);
     }
 
     public boolean addImageData (ConcurrentHashMap<String, String> image){
@@ -89,7 +80,7 @@ public class ImageData {
         return imageList;
     }
 
-/*    public void clearImageData (){
+/*   public void clearImageData (){
         imageList.clear();
         imageBitmapCache.evictAll();
         imagePositionMap.evictAll();

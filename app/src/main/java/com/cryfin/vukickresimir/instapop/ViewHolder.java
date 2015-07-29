@@ -1,7 +1,11 @@
 package com.cryfin.vukickresimir.instapop;
 
-/**
- * Created by CryFin on 7/29/2015.
- */
+import android.widget.ImageView;
+import android.widget.TextView;
+
 public class ViewHolder {
+    ImageView imageView;
+    TextView textViewUser;
+    TextView textViewName;
+    TextView textViewCaption;
 }

@@ -44,7 +44,8 @@ public class GetJson {
             e.printStackTrace();
         } finally {
             try {
-                inputStream.close();
+                if (null != inputStream)
+                    inputStream.close();
             }catch (IOException e) {
                 e.printStackTrace();
             }

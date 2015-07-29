@@ -2,7 +2,8 @@ package com.cryfin.vukickresimir.instapop;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.GridView;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import org.json.JSONArray;
@@ -15,19 +16,19 @@ import org.json.JSONObject;
 public class LoadImageData extends AsyncTask<Integer, Void, Void> {
 
     private static GetJson getJson;
-    private static GlobalData global = GlobalData.getInstance();
+    private static GlobalData global;
     private static ImageData imageData;
     private static ImageAdapter imageAdapter;
-    private static GridView gridView;
+    private static ListView listView;
     private static String downloadUrl;
     private static ProgressBar progressBar;
 
     public LoadImageData() {
-        this.getJson = new GetJson();
+        getJson = new GetJson();
         global = GlobalData.getInstance();
         imageData = global.getImageData();
         imageAdapter = global.getImageAdapter();
-        gridView = global.getGridView();
+        listView = global.getGridView();
         downloadUrl = global.getDownloadUrl();
         progressBar = global.getProgressBar();
     }
@@ -36,7 +37,7 @@ public class LoadImageData extends AsyncTask<Integer, Void, Void> {
     protected void onPreExecute() {
         //super.onPreExecute();
         imageData.setLoadingImages(true);
-        //progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -54,10 +55,10 @@ public class LoadImageData extends AsyncTask<Integer, Void, Void> {
                 parseJson.parse();
 
             } catch (JSONException e) {
-                Log.d("MANANA ERROR: ", "" + e);
+                e.printStackTrace();
             }
         } else {
-            Log.d("MANANA", "Couldn't get any data from the url");
+            Log.e("Error: ", "Couldn't get any data from the url");
         }
         return null;
     }
@@ -65,16 +66,16 @@ public class LoadImageData extends AsyncTask<Integer, Void, Void> {
     @Override
     protected synchronized void onPostExecute(Void result) {
         //super.onPostExecute(result);
-        //progressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
 
         // Get current scroll position
-        int currentPosition = gridView.getFirstVisiblePosition();
+        int currentPosition = listView.getFirstVisiblePosition();
 
-        //Populate GridView with images
-        gridView.setAdapter(imageAdapter);
+        //Populate ListView with images
+        listView.setAdapter(imageAdapter);
 
-        // Set new scroll position
-        gridView.setSelection(currentPosition);
+        // Set old scroll position - othervise you'd be thrown to the beginning
+        listView.setSelection(currentPosition);
 
         imageData.setLoadingImages(false);
     }
