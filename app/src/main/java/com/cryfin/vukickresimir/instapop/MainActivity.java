@@ -13,19 +13,22 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_test);
 
         ImageAdapter imageAdapter = new ImageAdapter(this);
 
         GridView gridView = (GridView) findViewById(R.id.instaGrid);
+        gridView.setFastScrollEnabled(true);
+/*
 
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
+*/
 
         GlobalData global = GlobalData.getInstance();
         global.setGridView(gridView);
         global.setImageAdapter(imageAdapter);
-        global.setProgressBar(progressBar);
+        //global.setProgressBar(progressBar);
 
         // Calling async task to get json data
         new LoadImageData().execute();

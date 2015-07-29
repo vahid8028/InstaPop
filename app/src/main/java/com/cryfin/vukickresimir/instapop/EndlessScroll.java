@@ -31,7 +31,9 @@ public class EndlessScroll implements AbsListView.OnScrollListener {
                 previousTotal = totalItemCount;
                 currentPage++;
             }
-        }else if ((totalItemCount - firstVisibleItem) <= (visibleItemCount + visibleThreshold)) {
+        }
+        //todo: doesn't work quite right because of the cache
+        else if ((totalItemCount - firstVisibleItem) <= (visibleItemCount + visibleThreshold)) {
             imageData.setLoadingImages(true);
             new LoadImageData().execute();
         }

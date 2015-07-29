@@ -15,14 +15,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ParseJson {
 
     // JSON Node names
-    private static final String TAG_CREATED = "created_time";
     private static final String TAG_FULL_NAME = "full_name";
-    private static final String TAG_ID = "id";
     private static final String TAG_IMAGES = "images";
-    private static final String TAG_LINK= "link";
-    private static final String TAG_LOW_RESOLUTION= "low_resolution";
-    private static final String TAG_PROFILE_PICTURE = "profile_picture";
-    private static final String TAG_TYPE = "type";
+    private static final String TAG_LINK_THUMB= "link";
+    private static final String TAG_LINK_STD_RES= "link";
+    private static final String TAG_STD_RESOLUTION= "standard_resolution";
+    private static final String TAG_THUMBNAIL= "thumbnail";
     private static final String TAG_URL = "url";
     private static final String TAG_USER = "user";
     private static final String TAG_USERNAME = "username";
@@ -42,33 +40,25 @@ public class ParseJson {
             for (int i = 0; i < images.length(); i++) {
                 JSONObject jsonObject = images.getJSONObject(i);
 
-                String imageUrl = jsonObject.getJSONObject(TAG_IMAGES).getJSONObject(TAG_LOW_RESOLUTION).getString(TAG_URL);
-                if (imageData.isInCache(imageUrl)) continue;
+                String imageUrlThumbnail = jsonObject.getJSONObject(TAG_IMAGES).getJSONObject(TAG_THUMBNAIL).getString(TAG_URL);
+                if (imageData.isInCache(imageUrlThumbnail)) continue;
 
-                String type = jsonObject.getString(TAG_TYPE);
-                String created_time = jsonObject.getString(TAG_CREATED);
-                String id = jsonObject.getString(TAG_ID);
+                String imageUrlStdRes = jsonObject.getJSONObject(TAG_IMAGES).getJSONObject(TAG_STD_RESOLUTION).getString(TAG_URL);
 
                 JSONObject user = jsonObject.getJSONObject(TAG_USER);
                 String username = user.getString(TAG_USERNAME);
                 String full_name = user.getString(TAG_FULL_NAME);
-                String profile_picture = user.getString(TAG_PROFILE_PICTURE);
-
 
                 // tmp hashmap for single image
                 ConcurrentHashMap<String, String> image = new ConcurrentHashMap<>();
 
                 // adding each child node to HashMap
-                image.put(TAG_ID, id);
                 image.put(TAG_USERNAME, username);
-                image.put(TAG_CREATED, created_time);
                 image.put(TAG_FULL_NAME, full_name);
-                image.put(TAG_PROFILE_PICTURE, profile_picture);
-                image.put(TAG_TYPE, type);
-                image.put(TAG_LINK, imageUrl);
+                image.put(TAG_LINK_THUMB, imageUrlThumbnail);
+                image.put(TAG_LINK_STD_RES, imageUrlStdRes);
 
                 imageData.addImageData(image);
-
             }
         }catch(JSONException e){
             Log.d("MANANA ERROR: ", "" + e);

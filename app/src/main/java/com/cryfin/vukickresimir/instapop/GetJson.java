@@ -13,8 +13,10 @@ import java.net.URL;
 //todo: inspect class
 public class GetJson {
 
-    static String response = null;
+    static String jsonString = null;
     InputStream inputStream = null;
+    // in this app, jsonString size is always around 130k +- 15k
+    static int initSize = 150000;
 
     public GetJson() {}
 
@@ -27,14 +29,14 @@ public class GetJson {
             BufferedReader br = new BufferedReader(new InputStreamReader(
                     inputStream));
 
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder(initSize);
 
             String line;
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
 
-            response = sb.toString();
+            jsonString = sb.toString();
 
             br.close();
 
@@ -48,6 +50,6 @@ public class GetJson {
             }
         }
 
-        return response;
+        return jsonString;
     }
 }
