@@ -10,7 +10,6 @@ import java.net.URL;
 /**
  *  Class for downloading JSON data from given URL.
  */
-//todo: inspect class
 public class GetJson {
 
     static String jsonString = null;

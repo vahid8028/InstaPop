@@ -11,11 +11,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
 /**
  * Class for downloading bitmap image from passed URL and setting them inside the View.
  */
-//Todo: application may restart on screen reorientation, http://developer.android.com/guide/topics/resources/runtime-changes.html
 class URLDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private static GlobalData global;
     private static ImageData imageData;

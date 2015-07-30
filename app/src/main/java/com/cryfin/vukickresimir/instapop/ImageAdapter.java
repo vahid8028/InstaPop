@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- *  Class for managing Views inside GridView
+ *  Class for managing Views
  */
 public class ImageAdapter extends BaseAdapter {
     private static final String TAG_LINK= "link";
@@ -38,7 +38,6 @@ public class ImageAdapter extends BaseAdapter {
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int viewPosition, View oldView, ViewGroup parent) {
         ViewHolder viewHolder;
-
 
         if (oldView == null) {
             oldView = mInflater.inflate(R.layout.list_item, null);

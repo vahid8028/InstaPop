@@ -6,14 +6,12 @@ import android.widget.AbsListView;
 /**
  *  This class manages scrolling inside the app and dynamically loads more images when needed.
  */
-//todo: disable rescrolling to the top ater loading new images
 public class EndlessScroll implements AbsListView.OnScrollListener {
 
     private static GlobalData global;
     private static ImageData imageData;
 
-    private int visibleThreshold = 10;
-    private int currentPage = 0;
+    private int visibleThreshold = 8;
     private int previousTotal = 0;
 
     public EndlessScroll() {
@@ -29,10 +27,9 @@ public class EndlessScroll implements AbsListView.OnScrollListener {
             if (totalItemCount > previousTotal) {
                 imageData.setLoadingImages(false);
                 previousTotal = totalItemCount;
-                currentPage++;
             }
         }
-        //todo: doesn't work quite right because of the cache
+        //todo: in theory, it sould break sooner or later because of the cache
         else if ((totalItemCount - firstVisibleItem) <= (visibleItemCount + visibleThreshold)) {
             imageData.setLoadingImages(true);
             new LoadImageData().execute();

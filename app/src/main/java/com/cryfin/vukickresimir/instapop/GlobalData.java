@@ -12,7 +12,7 @@ public class GlobalData {
 
     // URL to get JSON data from instagram
     public static final String instagramUrl = "https://api.instagram.com/v1/media/popular?client_id=72b1d107078b47a8a2c40ebc77b97a66";
-    public static ListView gridView;
+    public static ListView listView;
     public static ImageData imageData = new ImageData();
     public static ImageAdapter imageAdapter;
     public static ProgressBar progressBar;
@@ -32,12 +32,12 @@ public class GlobalData {
         return firstInstance;
     }
 
-    public void setGridView( ListView gridView ){ GlobalData.gridView = gridView; }
+    public void setListView( ListView listView ){ GlobalData.listView = listView; }
     public void setProgressBar( ProgressBar progressBar ){ GlobalData.progressBar = progressBar; }
     public void setImageAdapter( ImageAdapter imageAdapter ){ GlobalData.imageAdapter = imageAdapter; }
 
     public String getDownloadUrl(){ return instagramUrl; }
-    public ListView getGridView() { return gridView; }
+    public ListView getListView() { return listView; }
     public ImageAdapter getImageAdapter(){ return imageAdapter; }
     public ImageData getImageData(){ return imageData; }
     public ProgressBar getProgressBar() { return progressBar; }

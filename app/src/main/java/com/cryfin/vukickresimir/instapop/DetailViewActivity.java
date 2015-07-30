@@ -45,7 +45,6 @@ public class DetailViewActivity extends AppCompatActivity implements View.OnTouc
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_detail_view, menu);
         return super.onCreateOptionsMenu(menu);
     }

@@ -13,7 +13,7 @@ import org.json.JSONObject;
 /**
  *  Async class for loading initial set of images.
  */
-public class LoadImageData extends AsyncTask<Integer, Void, Void> {
+public class LoadImageData extends AsyncTask<Void, Void, Void> {
 
     private static GetJson getJson;
     private static GlobalData global;
@@ -28,7 +28,7 @@ public class LoadImageData extends AsyncTask<Integer, Void, Void> {
         global = GlobalData.getInstance();
         imageData = global.getImageData();
         imageAdapter = global.getImageAdapter();
-        listView = global.getGridView();
+        listView = global.getListView();
         downloadUrl = global.getDownloadUrl();
         progressBar = global.getProgressBar();
     }
@@ -41,7 +41,7 @@ public class LoadImageData extends AsyncTask<Integer, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Integer... currentPage) {
+    protected Void doInBackground(Void... vars) {
         String jsonStr = getJson.get(downloadUrl);
 
         if (jsonStr != null) {

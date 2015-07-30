@@ -25,16 +25,16 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
 
         GlobalData global = GlobalData.getInstance();
-        global.setGridView(listView);
+        global.setListView(listView);
         global.setImageAdapter(imageAdapter);
         global.setProgressBar(progressBar);
 
         // Calling async task to get json data
         new LoadImageData().execute();
 
-        global.getGridView().setOnScrollListener(new EndlessScroll());
+        global.getListView().setOnScrollListener(new EndlessScroll());
 
-        global.getGridView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        global.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int viewPosition, long id) {
                 Intent startDetailView = new Intent(MainActivity.this, DetailViewActivity.class);
