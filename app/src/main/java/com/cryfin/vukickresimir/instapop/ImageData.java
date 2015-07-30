@@ -17,7 +17,7 @@ public class ImageData {
     private static LruCache<Integer, String> imageUrlMap;         //viewPosition, urlString
     private static LruCache<String, Bitmap> imageBitmapCache;     //urlString, bmp
     public static boolean loadingImages = true;
-    private static final int cacheSize = 100;    // max number of objects stored in cache
+    private static final int cacheSize = 40;    // max number of objects stored in cache
     /*
     private static final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
     private static final int cacheSize = maxMemory / 4;     // max number of bytes stored in cache

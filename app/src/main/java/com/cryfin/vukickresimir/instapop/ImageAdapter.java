@@ -1,7 +1,6 @@
 package com.cryfin.vukickresimir.instapop;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +41,7 @@ public class ImageAdapter extends BaseAdapter {
 
 
         if (oldView == null) {
-            oldView = mInflater.inflate(R.layout.grid_item, null);
+            oldView = mInflater.inflate(R.layout.list_item, null);
 
             viewHolder = new ViewHolder();
             viewHolder.textViewUser = (TextView) oldView.findViewById(R.id.gridTextUser);

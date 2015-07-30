@@ -24,8 +24,7 @@
 
     <ProgressBar android:indeterminate="true"
         android:layout_width="fill_parent" android:layout_height="50dp"
-        android:id="@+id/progressBar"
-        android:style="?android:attr/progressBarStyle"
+        android:id="@+id/progressBar" style="?android:attr/progressBarStyle"
         android:layout_alignParentBottom="true"
         android:background="@android:color/background_light"
         android:layout_centerHorizontal="true" />

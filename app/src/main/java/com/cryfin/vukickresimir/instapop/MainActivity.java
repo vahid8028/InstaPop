@@ -1,15 +1,15 @@
 package com.cryfin.vukickresimir.instapop;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
     public final static String VIEW_POSITION = "view_position";
 
     @Override
